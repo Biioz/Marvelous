@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Marvelous</string>
+    <string name="perso_fav">Mes personnages favoris</string>
+    <string name="chercherperso">Chercher un hero !</string>
 </resources>
