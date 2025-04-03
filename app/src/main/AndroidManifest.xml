@@ -21,6 +21,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".FavActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".ResActivity"
+            android:exported="true">
+        </activity>
     </application>
 
 </manifest>
