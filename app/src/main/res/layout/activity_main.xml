@@ -81,7 +81,7 @@
             android:minWidth="120dp"
             android:paddingHorizontal="16dp"
             android:text="Rechercher"
-            android:onClick="searchHeros"
+            android:onClick="startResActivity"
             android:textAllCaps="false"
             android:textColor="@android:color/white" />
     </LinearLayout>

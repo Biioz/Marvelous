@@ -32,7 +32,7 @@
                 android:textSize="18sp" />
 
             <Button
-                android:id="@+id/homeButton"
+                android:id="@+id/homeResButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -41,7 +41,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:text="Home"
                 android:textAllCaps="false"
-                android:onClick="goHome"
+                android:onClick="goToHome"
                 android:layout_alignRight="@+id/marvelous"
                 android:textColor="@android:color/white"/>
         </RelativeLayout>

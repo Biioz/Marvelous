@@ -2,23 +2,24 @@ package com.example.marvelous;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import com.example.marvelous.Hero;
 
 public class User {
 
-    private ArrayList<Objects> heroList;
+    private ArrayList<Hero> heroList;
 
-    public User(ArrayList<Objects> lst){
+    public User(ArrayList<Hero> lst){
         heroList=lst;
     }
 
-    public void addFavorite(Objects hero){
+    public void addFavorite(Hero hero){
         heroList.add(hero);
     }
-    public ArrayList<Objects> getHeroList() {
+    public ArrayList<Hero> getHeroList() {
         return heroList;
     }
 
-    public void setHeroList(ArrayList<Objects> heroList) {
+    public void setHeroList(ArrayList<Hero> heroList) {
         this.heroList = heroList;
     }
 }
