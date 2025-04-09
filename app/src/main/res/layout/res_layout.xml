@@ -12,8 +12,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="#D32F2F"
         android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:layout_constraintTop_toTopOf="parent">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -46,26 +45,13 @@
                 android:textColor="@android:color/white"/>
         </RelativeLayout>
 
-        <LinearLayout
-            android:id="@+id/heroesContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <Button
-                android:id="@+id/homeButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Retour à l'accueil"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="16dp"/>
-
-            <!-- Les héros seront ajoutés ici dynamiquement -->
-        </LinearLayout>
-
     </androidx.appcompat.widget.Toolbar>
 
-
+    <ListView
+        android:id="@+id/heroes_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="1dp"/>
 
 </LinearLayout>
