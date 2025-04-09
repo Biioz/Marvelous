@@ -5,30 +5,25 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import com.example.marvelous.User;
-
-import androidx.appcompat.widget.Toolbar;
-
-import androidx.activity.EdgeToEdge;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.activity.EdgeToEdge;
+
 import java.util.ArrayList;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import java.util.ArrayList;
-
 public class MainActivity extends AppCompatActivity {
 
     private EditText heroInput;
-    private String search;
     private User user;
     private Button rechercher;
     private Button goToFav;
-
-    private  ArrayList<Hero> heroes;
+    private ArrayList<Hero> heroes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,13 +35,11 @@ public class MainActivity extends AppCompatActivity {
         heroInput = findViewById(R.id.heroinput);
         rechercher = findViewById(R.id.searchButton);
         goToFav = findViewById(R.id.favButton);
-        search = heroInput.getText().toString();
         user = new User(new ArrayList<>());
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
     }
-
 
     public void goFav(View view) {
         if (user == null || user.getHeroList() == null || user.getHeroList().isEmpty()) {
@@ -58,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
+    // Méthode appelée par le bouton pour lancer la recherche
     public void searchHeros(View view) {
         String heroName = heroInput.getText().toString().trim();
 
@@ -67,12 +60,10 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        // Authentification
         String timestamp = MarvelAPICo.getTimestamp();
         String hash = MarvelAPICo.genHash(timestamp);
         String publicKey = MarvelAPICo.getPublicKey();
 
-        // Appel API
         MarvelApiInt apiService = MarvelApiClient.getClient().create(MarvelApiInt.class);
         Call<MarvelHeroResponse> call = apiService.searchHeroes(timestamp, publicKey, hash, heroName);
 
@@ -81,10 +72,16 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<MarvelHeroResponse> call, Response<MarvelHeroResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     heroes = new ArrayList<>(response.body().getData().getResults());
-                    //for (Hero i : heroes) {
-                        //System.out.println(i.getName());
-                        //System.out.println(i.getDescription());
-                    //}
+
+                    if (heroes.isEmpty()) {
+                        showToast("Aucun héros trouvé");
+                        return;
+                    }
+
+                    // Démarre l'activité avec les résultats
+                    Intent intent = new Intent(MainActivity.this, ResActivity.class);
+                    intent.putParcelableArrayListExtra("heroes_list", heroes);
+                    startActivity(intent);
                 } else {
                     showToast("Erreur de réponse du serveur");
                 }
@@ -97,18 +94,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-    }
-
-    public void startResActivity(View view) {
-        Intent intent = new Intent(this, ResActivity.class);
-        searchHeros(view);
-        /*if (heroes.isEmpty()) {
-            showToast("Aucun héros trouvé");
-        }*/
-        intent.putParcelableArrayListExtra("heroes_list", heroes);
-        startActivity(intent);
     }
 }
