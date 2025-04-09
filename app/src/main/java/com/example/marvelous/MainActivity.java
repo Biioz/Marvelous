@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        // Initialisation des vues
+
         heroInput = findViewById(R.id.heroinput);
         rechercher = findViewById(R.id.searchButton);
         goToFav = findViewById(R.id.favButton);
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    // Méthode appelée par le bouton pour lancer la recherche
+
     public void searchHeros(View view) {
         String heroName = heroInput.getText().toString().trim();
 

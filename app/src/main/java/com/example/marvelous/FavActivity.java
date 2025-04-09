@@ -30,10 +30,9 @@ public class FavActivity extends AppCompatActivity {
         Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
 
-        // Initialiser la liste des favoris
         favHeroes = new ArrayList<>();
 
-        // Récupérer les héros favoris depuis l'intent
+
         Intent intent = getIntent();
         if (getIntent() != null && getIntent().hasExtra("fav_heros")) {
             ArrayList<Hero> receivedFavs = getIntent().getParcelableArrayListExtra("fav_heros");
@@ -42,11 +41,11 @@ public class FavActivity extends AppCompatActivity {
             }
         }
 
-        // Configurer la ListView
+
         favListView = findViewById(R.id.fav_list_view);
         emptyView = findViewById(R.id.empty_view);
 
-        // Vérifier si la liste est vide
+
         if (favHeroes == null || favHeroes.isEmpty()) {
             emptyView.setVisibility(View.VISIBLE);
             favListView.setVisibility(View.GONE);
@@ -57,7 +56,7 @@ public class FavActivity extends AppCompatActivity {
             favListView.setAdapter(adapter);
         }
 
-        // Gérer le clic sur un héros
+
         favListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

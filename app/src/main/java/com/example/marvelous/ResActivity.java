@@ -29,7 +29,7 @@ public class ResActivity extends AppCompatActivity {
         Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
 
-        // Récupérer les données de l'intent
+
         Intent intent = getIntent();
         if (intent != null) {
             if (intent.hasExtra("heroes_list")) {
@@ -46,7 +46,7 @@ public class ResActivity extends AppCompatActivity {
             }
         }
 
-        // Configurer la ListView
+
         heroesListView = findViewById(R.id.heroes_list_view);
         adapter = new HeroAdapter(this, heroes);
         heroesListView.setAdapter(adapter);
