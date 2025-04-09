@@ -46,6 +46,24 @@
                 android:textColor="@android:color/white"/>
         </RelativeLayout>
 
+        <LinearLayout
+            android:id="@+id/heroesContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <Button
+                android:id="@+id/homeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Retour à l'accueil"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Les héros seront ajoutés ici dynamiquement -->
+        </LinearLayout>
+
     </androidx.appcompat.widget.Toolbar>
 
 

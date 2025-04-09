@@ -81,10 +81,10 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<MarvelHeroResponse> call, Response<MarvelHeroResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     heroes = new ArrayList<>(response.body().getData().getResults());
-                    for (Hero i : heroes) {
-                        System.out.println(i.getName());
-                        System.out.println(i.getDescription());
-                    }
+                    //for (Hero i : heroes) {
+                        //System.out.println(i.getName());
+                        //System.out.println(i.getDescription());
+                    //}
                 } else {
                     showToast("Erreur de réponse du serveur");
                 }
