@@ -85,9 +85,6 @@ public class MainActivity extends AppCompatActivity {
                         System.out.println(i.getName());
                         System.out.println(i.getDescription());
                     }
-                    if (heroes.isEmpty()) {
-                        showToast("Aucun héros trouvé");
-                    }
                 } else {
                     showToast("Erreur de réponse du serveur");
                 }
@@ -108,6 +105,9 @@ public class MainActivity extends AppCompatActivity {
     public void startResActivity(View view) {
         Intent intent = new Intent(this, ResActivity.class);
         searchHeros(view);
+        /*if (heroes.isEmpty()) {
+            showToast("Aucun héros trouvé");
+        }*/
         intent.putParcelableArrayListExtra("heroes_list", heroes);
         startActivity(intent);
     }
