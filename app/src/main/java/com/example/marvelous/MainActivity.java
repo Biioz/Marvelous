@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private Button rechercher;
     private Button goToFav;
     private ArrayList<Hero> heroes;
+    private ArrayList<Hero> fav_heroes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,17 +38,17 @@ public class MainActivity extends AppCompatActivity {
         goToFav = findViewById(R.id.favButton);
         user = new User(new ArrayList<>());
 
+        if (getIntent() != null && getIntent().hasExtra("fav_heros")) {
+            fav_heroes = getIntent().getParcelableArrayListExtra("fav_heros");
+        }
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
     }
 
     public void goFav(View view) {
-        if (user == null || user.getHeroList() == null || user.getHeroList().isEmpty()) {
-            Toast.makeText(this, "Aucun héros favori", Toast.LENGTH_SHORT).show();
-            return;
-        }
         Intent intent = new Intent(this, FavActivity.class);
-        intent.putExtra("user", user.getHeroList());
+        intent.putParcelableArrayListExtra("fav_heros", fav_heroes);
         startActivity(intent);
     }
 
@@ -71,16 +72,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<MarvelHeroResponse> call, Response<MarvelHeroResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    heroes = new ArrayList<>(response.body().getData().getResults());
+                    ArrayList<Hero> heroes = new ArrayList<>(response.body().getData().getResults());
 
                     if (heroes.isEmpty()) {
                         showToast("Aucun héros trouvé");
                         return;
                     }
 
-                    // Démarre l'activité avec les résultats
                     Intent intent = new Intent(MainActivity.this, ResActivity.class);
                     intent.putParcelableArrayListExtra("heroes_list", heroes);
+                    if (fav_heroes != null) {
+                        intent.putParcelableArrayListExtra("fav_heros", fav_heroes);
+                    }
                     startActivity(intent);
                 } else {
                     showToast("Erreur de réponse du serveur");

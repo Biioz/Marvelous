@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -16,11 +15,10 @@ import java.util.ArrayList;
 
 public class ResActivity extends AppCompatActivity {
 
-    private Button homebutton;
     private ListView heroesListView;
     private HeroAdapter adapter;
-    private ArrayList<Hero> heroes;
-    private User user;
+    private ArrayList<Hero> heroes = new ArrayList<>(); // Initialisation ici
+    private ArrayList<Hero> favHeroes = new ArrayList<>(); // Initialisation ici
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +26,25 @@ public class ResActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.res_layout);
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
 
-        // Récupérer la liste des héros depuis l'intent
-        heroes = getIntent().getParcelableArrayListExtra("heroes_list");
-        user = new User(new ArrayList<>()); // Initialiser l'utilisateur
+        // Récupérer les données de l'intent
+        Intent intent = getIntent();
+        if (intent != null) {
+            if (intent.hasExtra("heroes_list")) {
+                ArrayList<Hero> receivedHeroes = intent.getParcelableArrayListExtra("heroes_list");
+                if (receivedHeroes != null) {
+                    heroes.addAll(receivedHeroes); // Maintenant safe car heroes est initialisé
+                }
+            }
+            if (intent.hasExtra("fav_heros")) {
+                ArrayList<Hero> receivedFavs = intent.getParcelableArrayListExtra("fav_heros");
+                if (receivedFavs != null) {
+                    favHeroes.addAll(receivedFavs);
+                }
+            }
+        }
 
         // Configurer la ListView
         heroesListView = findViewById(R.id.heroes_list_view);
@@ -45,15 +56,23 @@ public class ResActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Hero selectedHero = heroes.get(position);
-                user.addHero(selectedHero);
-                Toast.makeText(ResActivity.this, selectedHero.getName() + " ajouté aux favoris", Toast.LENGTH_SHORT).show();
+                addToFavorites(selectedHero);
             }
         });
     }
 
+    private void addToFavorites(Hero hero) {
+        if (!favHeroes.contains(hero)) {
+            favHeroes.add(hero);
+            Toast.makeText(this, hero.getName() + " ajouté aux favoris", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, hero.getName() + " est déjà dans les favoris", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     public void goToHome(View view) {
-        Intent i = new Intent(this, MainActivity.class);
-        i.putExtra("hero_list", user.getHeroList()); // Transmettre l'utilisateur avec ses favoris
-        startActivity(i);
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putParcelableArrayListExtra("fav_heros", favHeroes);
+        startActivity(intent);
     }
 }

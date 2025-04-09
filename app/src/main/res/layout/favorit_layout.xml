@@ -12,8 +12,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="#D32F2F"
         android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:layout_constraintTop_toTopOf="parent">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -27,7 +26,7 @@
                 android:layout_gravity="center"
                 android:layout_marginEnd="8dp"
                 android:layout_marginTop="15dp"
-                android:text="Marvelous"
+                android:text="Marvelous - Favoris"
                 android:textColor="@android:color/white"
                 android:textSize="18sp" />
 
@@ -45,9 +44,21 @@
                 android:layout_alignRight="@+id/marvelous"
                 android:textColor="@android:color/white"/>
         </RelativeLayout>
-
     </androidx.appcompat.widget.Toolbar>
 
+    <TextView
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="Aucun héros favori"
+        android:visibility="gone"
+        android:textSize="18sp"/>
 
-
+    <ListView
+        android:id="@+id/fav_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="1dp"/>
 </LinearLayout>
