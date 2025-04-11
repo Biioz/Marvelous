@@ -1,6 +1,11 @@
 package com.example.marvelous;
 
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkRequest;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private Button goToFav;
     private ArrayList<Hero> heroes;
     private ArrayList<Hero> fav_heroes;
+    private ConnectivityManager.NetworkCallback networkCallback;
+    private ConnectivityManager connectivityManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-
+        // Initialisation des composants UI
         heroInput = findViewById(R.id.heroinput);
         rechercher = findViewById(R.id.searchButton);
         goToFav = findViewById(R.id.favButton);
@@ -44,6 +51,49 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // Configuration du monitoring réseau
+        configurerSurveillanceReseau();
+    }
+
+    private void configurerSurveillanceReseau() {
+        connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+
+        networkCallback = new ConnectivityManager.NetworkCallback() {
+            @Override
+            public void onAvailable(Network network) {
+                runOnUiThread(() ->
+                        Toast.makeText(MainActivity.this,
+                                "Connexion Internet rétablie",
+                                Toast.LENGTH_SHORT).show());
+            }
+
+            @Override
+            public void onLost(Network network) {
+                runOnUiThread(() ->
+                        Toast.makeText(MainActivity.this,
+                                "Connexion Internet perdue",
+                                Toast.LENGTH_SHORT).show());
+            }
+        };
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            connectivityManager.registerDefaultNetworkCallback(networkCallback);
+        } else {
+            NetworkRequest request = new NetworkRequest.Builder()
+                    .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                    .build();
+            connectivityManager.registerNetworkCallback(request, networkCallback);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Nettoyage du callback réseau
+        if (connectivityManager != null && networkCallback != null) {
+            connectivityManager.unregisterNetworkCallback(networkCallback);
+        }
     }
 
     public void goFav(View view) {
@@ -100,4 +150,5 @@ public class MainActivity extends AppCompatActivity {
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
+
 }
